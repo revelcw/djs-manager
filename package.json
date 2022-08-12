@@ -1,0 +1,24 @@
+{
+  "name": "psbs-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "deploy": "node src/deployCommands.js",
+    "start": "node src/main.js"
+  },
+  "author": "1Mon",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/rest": "^0.2.0-canary.0",
+    "airtable": "^0.11.3",
+    "discord-api-types": "^0.26.1",
+    "discord.js": "^13.6.0",
+    "dotenv": "^8.2.0",
+    "node-fetch": "^2.6.7",
+    "typescript": "^4.6.3"
+  },
+  "engines": {
+    "node": "16.6"
+  }
+}
