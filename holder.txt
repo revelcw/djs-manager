@@ -1,0 +1,34 @@
+// console.log("Interaction HEREREH RHEH RER: ", interaction);
+  // const question = interaction.options.getString("question");
+
+  // await api.ensureAuth();
+  // const response = await api.sendMessage(question);
+
+  // console.log(response);
+  const filter = (i) => {
+    // i.deferUpdate();
+    console.log("Reached a filter ", i);
+    return true;
+  };
+
+  const row = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+      .setCustomId("primary")
+      .setLabel("Click me!")
+      .setStyle(ButtonStyle.Primary)
+  );
+
+  const sentMessage = await interaction.editReply({
+    content: "I think you should,",
+    components: [row],
+  });
+  sentMessage
+    .awaitMessageComponent({
+      filter,
+      componentType: ComponentType.Button,
+      time: 60000,
+    })
+    .then((interaction) =>
+      interaction.editReply(`You selected ${interaction.values.join(", ")}!`)
+    )
+    .catch((err) => console.log(`No interactions were collected.`));

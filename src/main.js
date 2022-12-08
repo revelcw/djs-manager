@@ -1,25 +1,31 @@
-const fs = require("fs");
-const { Client, Collection, Intents } = require("discord.js");
-require("dotenv").config();
+import { readdirSync } from "fs";
+import {
+  Client,
+  Collection,
+  GatewayIntentBits,
+  ContextMenuCommandBuilder,
+  ApplicationCommandType,
+  Events,
+  InteractionType,
+} from "discord.js";
+import * as dotenv from "dotenv";
+import { assert } from "console";
+dotenv.config();
 
 const token = process.env.TOKEN;
 
 const client = new Client({
-  intents: [
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_PRESENCES,
-    Intents.FLAGS.GUILD_MEMBERS,
-  ],
+  intents: [GatewayIntentBits.Guilds],
 });
 
 client.commands = new Collection();
-const commandFiles = fs
-  .readdirSync(__dirname + "/commands")
-  .filter((file) => file.endsWith(".js"));
+const commandFiles = readdirSync("./src/commands").filter((file) =>
+  file.endsWith(".js")
+);
 
 for (const file of commandFiles) {
-  const command = require(__dirname + `/commands/${file}`);
-  client.commands.set(command.data.name, command);
+  const command = await import(`./commands/${file}`);
+  client.commands.set(command.default.data.name, command.default);
 }
 
 client.once("ready", () => {
@@ -27,38 +33,44 @@ client.once("ready", () => {
   client.user.setActivity("over the children", { type: "WATCHING" });
 });
 
-client.on("interactionCreate", async (interaction) => {
-  if (!interaction.isCommand()) return;
+client.on(Events.InteractionCreate, async (interaction) => {
+  // Slash Command Handling
+  if (interaction.isCommand()) {
+    // await interaction.deferReply({ ephemeral: false }).catch(() => {});
 
-  const command = client.commands.get(interaction.commandName);
-
-  if (!command) return;
-  console.log(interaction.channel);
-  console.log("Interaction:", interaction);
-  const inDms = interaction.guild === null;
-
-  if (
-    (inDms && command.runnableIn.includes("dm")) ||
-    (!inDms && command.runnableIn.includes("guild"))
-  ) {
-    try {
-      await command.execute(interaction, client);
-    } catch (error) {
-      console.error(error);
-      return interaction.reply({
-        content: "There was an error while executing this command!",
-        ephemeral: true,
+    console.log(
+      client.commands.get(interaction.commandName),
+      interaction.commandName
+    );
+    const cmd = await client.commands.get(interaction.commandName);
+    if (!cmd)
+      return interaction.followUp({
+        content: "An error has occured unfortunately ",
       });
+
+    const args = [];
+
+    for (let option of interaction.options.data) {
+      if (option.type === "SUB_COMMAND") {
+        if (option.name) args.push(option.name);
+        option.options?.forEach((x) => {
+          if (x.value) args.push(x.value);
+        });
+      } else if (option.value) args.push(option.value);
     }
-  } else {
-    console.log(command.runnableIn);
-    return interaction.reply({
-      content: `This command can only be run in a ${command.runnableIn.join(
-        " or "
-      )} channel!`,
-      ephemeral: true,
-    });
+    interaction.member = interaction.guild.members.cache.get(
+      interaction.user.id
+    );
+
+    cmd.execute(client, interaction, args);
   }
+
+  // Context Menu Handling
+  // if (interaction.type == InteractionType.M) {
+  //   await interaction.deferReply({ ephemeral: false });
+  //   const command = client.slashCommands.get(interaction.commandName);
+  //   if (command) command.run(client, interaction);
+  // }
 });
 
 client.login(token);

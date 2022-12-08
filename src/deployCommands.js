@@ -1,29 +1,55 @@
-const fs = require('fs');
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
-require('dotenv').config();
+import { readdirSync } from "fs";
+import { REST } from "@discordjs/rest";
+import { Routes } from "discord-api-types/v9";
+import * as dotenv from "dotenv";
+dotenv.config();
 const { CLIENT_ID, GUILD_ID, TOKEN } = process.env;
 
-console.log(__dirname)
-const commands = [];
-const commandFiles = fs
-  .readdirSync(__dirname + '/commands')
-  .filter((file) => file.endsWith('.js'));
-console.log('Command Files:', commandFiles);
+export default async (client) => {
+  //Events
+  // const eventFiles = await globPromise(`${process.cwd()}/events/*.js`);
+  // eventFiles.map((value) => require(value));
 
-for (const file of commandFiles) {
-  const theFile = __dirname+ `/commands/${file}`;
-  console.log('Command: ', theFile, ' found');
-  const command = require(theFile);
-  console.log('Command: ', command.data.name, ' found');
-  commands.push(command.data.toJSON());
-}
+  // Slash Commands
+  const slashCommands = await globPromise(`${process.cwd()}/commands/*.js`);
 
-const rest = new REST({ version: '9' }).setToken(TOKEN);
+  const arrayOfSlashCommands = [];
+  slashCommands.map((value) => {
+    const file = require(value);
+    if (!file?.name) return;
+    client.slashCommands.set(file.name, file);
 
-rest
-  .put(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), { body: commands })
-  .then(() =>
-    console.log('Successfully registered guild application commands.')
-  )
-  .catch(console.error);
+    if (["MESSAGE", "USER"].includes(file.type)) delete file.description;
+    arrayOfSlashCommands.push(file);
+  });
+  client.on("ready", async () => {
+    // Register for a single guild
+    await client.guilds.cache
+      .get("939352044374999070")
+      .commands.set(arrayOfSlashCommands);
+
+    // Register for all the guilds the bot is in
+    // await client.application.commands.set(arrayOfSlashCommands);
+  });
+};
+// const commands = [];
+// const commandFiles = readdirSync("./src/commands").filter((file) =>
+//   file.endsWith(".js")
+// );
+// console.log("Command Files:", commandFiles);
+
+// for (const file of commandFiles) {
+//   const theFile = `./commands/${file}`;
+//   console.log("Command: ", theFile, " found");
+//   const command = await import(theFile);
+//   commands.push(command.default.data.toJSON());
+// }
+
+// const rest = new REST({ version: "9" }).setToken(TOKEN);
+
+// rest
+//   .put(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), { body: commands })
+//   .then(() =>
+//     console.log("Successfully registered guild application commands.")
+//   )
+//   .catch(console.error);
