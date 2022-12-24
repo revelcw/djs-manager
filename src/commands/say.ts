@@ -8,13 +8,14 @@ import {
 import * as dotenv from 'dotenv';
 import { Command } from '../types/Command.types';
 import { CommandProps } from '../types/CommandProps.types';
+import { Execute } from '../types/Execute.types';
 import { Subcommands } from '../types/Subcommands.types';
 dotenv.config();
 
 const execute = async ({
   client,
   interaction,
-}: CommandProps): Promise<Subcommands> => {
+}: CommandProps): Promise<Execute> => {
   // const options = interaction.options as discordjs.CommandInteractionOptionResolver
   console.log('Command name', interaction.options.getSubcommand());
   return {

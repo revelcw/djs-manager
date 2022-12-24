@@ -7,12 +7,13 @@ import {
 import * as dotenv from 'dotenv';
 import { Command } from '../types/Command.types';
 import { CommandProps } from '../types/CommandProps.types';
+import { Execute } from '../types/Execute.types';
 dotenv.config();
 
 const execute = async ({
   client,
   interaction,
-}: CommandProps): Promise<void> => {
+}: CommandProps): Promise<Execute> => {
   // const options = interaction.options as discordjs.CommandInteractionOptionResolver
 
   interaction.reply('Pong! 🏓');

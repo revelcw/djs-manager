@@ -39,16 +39,15 @@ export const registerEvent = async (_client: any) => {
         // On context menu
         command.execute({ client, interaction });
       } else if (interaction.isCommand()) {
-        if (interaction.options.getSubcommand(false)) {
+        const subcommand = interaction.options.getSubcommand(false);
+        if (subcommand) {
           // false means that it won't throw if interaction doesn't have subcommand
-          const subcommand: string | null =
-            interaction.options.getSubcommand(false);
           const subcommandExecutors: Subcommands = (await command.execute({
             client,
             interaction,
           })) as Subcommands; // also runs any code inside the execute function, this is intended
 
-          if (subcommand && subcommandExecutors[subcommand]) {
+          if (subcommandExecutors[subcommand]) {
             subcommandExecutors[subcommand]();
           }
         } else {
