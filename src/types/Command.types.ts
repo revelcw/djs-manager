@@ -18,5 +18,5 @@ export type Command = {
         | 'addNumberOption'
       >
     | ContextMenuCommandBuilder;
-  execute: (arg0: CommandProps) => Promise<void> | Promise<Subcommands>;
+  execute: (commandProps: CommandProps) => Promise<void> | Promise<Subcommands>;
 };
