@@ -14,17 +14,16 @@ import {
   InteractionCollector,
   GuildMember,
 } from 'discord.js';
-import { ExtendedClient } from '../types/ExtendedClient.types';
-import { ExtendedCommandInteraction } from '../types/ExtendedCommandInteraction.types';
-import { Subcommands } from '../types/Subcommands.types';
+import { ExtendedClient } from './types/ExtendedClient.types';
+import { ExtendedCommandInteraction } from './types/ExtendedCommandInteraction.types';
+import { Subcommands } from './types/Subcommands.types';
 
-export const registerEvent = async (_client: any) => {
+export const registerEvent = async (client: ExtendedClient) => {
   console.log('Interaction Create Event Registed');
-  _client.on(
+  client.on(
     Events.InteractionCreate,
     async (interaction: ExtendedCommandInteraction) => {
       // Slash Command HandlinG
-      const client = _client as ExtendedClient;
       const command = client.commands[interaction.commandName];
       if (!command)
         return interaction.followUp({

@@ -26,13 +26,6 @@ const main = async () => {
 
   await register(client);
 
-  client.once('ready', () => {
-    console.log('Bot Ready!');
-    client?.user?.setActivity('over the children', {
-      type: ActivityType.Watching,
-    });
-  });
-
   client.login(token);
 };
 

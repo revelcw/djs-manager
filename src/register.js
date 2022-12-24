@@ -14,6 +14,8 @@ const globPromise = promisify(glob);
 export const register = async (client) => {
   //Events
   const eventFiles = await globPromise(`${process.cwd()}/dist/events/*.js`);
+  eventFiles.push(`${process.cwd()}/dist/handleCommand.js`);
+  console.log(eventFiles);
   eventFiles.forEach(async (value) => {
     const { registerEvent } = await import(value);
     registerEvent(client);
@@ -27,6 +29,7 @@ export const register = async (client) => {
   const commands = await Promise.all(
     commandFiles.map(async (commandFilename) => {
       const { command } = await import(commandFilename);
+      console.log(client.commands);
       const commandData = command?.data;
       if (!commandData?.name) return;
 
