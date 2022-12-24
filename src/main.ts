@@ -22,7 +22,7 @@ const main = async () => {
     intents: [GatewayIntentBits.Guilds],
   }) as ExtendedClient;
 
-  client.interactions = {};
+  client.commands = {};
 
   await register(client);
 

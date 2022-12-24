@@ -30,7 +30,7 @@ export const register = async (client) => {
       const commandData = command?.data;
       if (!commandData?.name) return;
 
-      client.interactions[commandData.name] = command;
+      client.commands[commandData.name] = command;
 
       console.log('Interaction data: ', commandData);
       console.log('Interaction: ', command);

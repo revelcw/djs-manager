@@ -5,10 +5,16 @@ import {
   ApplicationCommandType,
 } from 'discord.js';
 import * as dotenv from 'dotenv';
-import { Execute } from '../types/Execute.types';
+import { BaseCommand } from '../types/BaseCommand.types';
+import { CommandProps } from '../types/CommandProps.types';
+import { GetSubcommands } from '../types/GetSubcommands.types';
+import { SubcommandCommand } from '../types/SubcommandCommand.types';
 dotenv.config();
 
-const getSubcommands = async ({ client, interaction }: Execute) => {
+const getSubcommands = async ({
+  client,
+  interaction,
+}: CommandProps): Promise<GetSubcommands> => {
   // const options = interaction.options as discordjs.CommandInteractionOptionResolver
   console.log('Command name', interaction.options.getSubcommand());
 
@@ -24,7 +30,7 @@ const getSubcommands = async ({ client, interaction }: Execute) => {
   };
 };
 
-export const command = {
+export const command: SubcommandCommand = {
   // data: new ContextMenuCommandBuilder()
   //   .setName('ping')
   //   .setType(ApplicationCommandType.Message),
@@ -37,5 +43,5 @@ export const command = {
     .addSubcommand((subcommand) =>
       subcommand.setName('bye').setDescription('says bye')
     ),
-  subcommands: getSubcommands,
+  getSubcommands,
 };

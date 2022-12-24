@@ -5,16 +5,20 @@ import {
   ApplicationCommandType,
 } from 'discord.js';
 import * as dotenv from 'dotenv';
-import { Execute } from '../types/Execute.types';
+import { BaseCommand } from '../types/BaseCommand.types';
+import { CommandProps } from '../types/CommandProps.types';
 dotenv.config();
 
-const execute = async ({ client, interaction }: Execute) => {
+const execute = async ({
+  client,
+  interaction,
+}: CommandProps): Promise<void> => {
   // const options = interaction.options as discordjs.CommandInteractionOptionResolver
 
   interaction.reply('Pong! 🏓');
 };
 
-export const command = {
+export const command: BaseCommand = {
   // data: new ContextMenuCommandBuilder()
   //   .setName('ping')
   //   .setType(ApplicationCommandType.Message),

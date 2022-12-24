@@ -23,32 +23,24 @@ export const registerEvent = async (client: any) => {
     Events.InteractionCreate,
     async (interaction: ExtendedCommandInteraction) => {
       // Slash Command HandlinG
-      const command = client.interactions[interaction.commandName];
+      const command = client.commands[interaction.commandName];
       if (!command)
         return interaction.followUp({
           content: 'An error has occured unfortunately ',
         });
 
+      interaction.member = interaction?.guild?.members?.cache?.get(
+        interaction.user.id
+      ) as GuildMember;
+
       if (interaction.isContextMenuCommand()) {
         if (command) command.execute({ client, interaction });
       } else if (interaction.isCommand()) {
-        console.log('Interaction Event', command);
-
-        const args = [];
-        for (let option of interaction.options.data) {
-          if (option.type === ApplicationCommandOptionType.Subcommand) {
-            if (option.name) args.push(option.name);
-            option.options?.forEach((x) => {
-              if (x.value) args.push(x.value);
-            });
-          } else if (option.value) args.push(option.value);
+        if (!interaction.options.getSubcommand(false)) {
+          await command.execute({ client, interaction });
+        } else {
+          await command.getSubcommands();
         }
-
-        interaction.member = interaction?.guild?.members?.cache?.get(
-          interaction.user.id
-        ) as GuildMember;
-
-        command.execute({ client, interaction, args });
       }
     }
   );
