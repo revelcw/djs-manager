@@ -1,7 +1,6 @@
 import { Client } from 'discord.js';
-import { BaseCommand } from './BaseCommand.types';
-import { SubcommandCommand } from './SubcommandCommand.types';
+import { Command } from './Command.types';
 
 export type ExtendedClient = Client & {
-  commands: Record<string, BaseCommand | SubcommandCommand>;
+  commands: Record<string, Command>;
 };

@@ -1,9 +1,9 @@
 import { SlashCommandBuilder } from 'discord.js';
 
 import { CommandProps } from './CommandProps.types';
-import { GetSubcommands } from './GetSubcommands.types';
+import { Subcommands } from './Subcommands.types';
 
-export type SubcommandCommand = {
+export type Command = {
   data: Omit<
     SlashCommandBuilder,
     | 'addBooleanOption'
@@ -16,5 +16,5 @@ export type SubcommandCommand = {
     | 'addIntegerOption'
     | 'addNumberOption'
   >;
-  getSubcommands: (arg0: CommandProps) => Promise<GetSubcommands>;
+  execute: (arg0: CommandProps) => Promise<void> | Promise<Subcommands>;
 };

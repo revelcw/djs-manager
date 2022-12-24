@@ -5,7 +5,7 @@ import {
   ApplicationCommandType,
 } from 'discord.js';
 import * as dotenv from 'dotenv';
-import { BaseCommand } from '../types/BaseCommand.types';
+import { Command } from '../types/Command.types';
 import { CommandProps } from '../types/CommandProps.types';
 dotenv.config();
 
@@ -18,7 +18,7 @@ const execute = async ({
   interaction.reply('Pong! 🏓');
 };
 
-export const command: BaseCommand = {
+export const command: Command = {
   // data: new ContextMenuCommandBuilder()
   //   .setName('ping')
   //   .setType(ApplicationCommandType.Message),

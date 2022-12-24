@@ -1,3 +1,4 @@
+import Base from 'airtable/lib/base';
 import * as discordjs from 'discord.js';
 import {
   SlashCommandBuilder,
@@ -5,21 +6,17 @@ import {
   ApplicationCommandType,
 } from 'discord.js';
 import * as dotenv from 'dotenv';
-import { BaseCommand } from '../types/BaseCommand.types';
+import { Command } from '../types/Command.types';
 import { CommandProps } from '../types/CommandProps.types';
-import { GetSubcommands } from '../types/GetSubcommands.types';
-import { SubcommandCommand } from '../types/SubcommandCommand.types';
+import { Subcommands } from '../types/Subcommands.types';
 dotenv.config();
 
-const getSubcommands = async ({
+const execute = async ({
   client,
   interaction,
-}: CommandProps): Promise<GetSubcommands> => {
+}: CommandProps): Promise<Subcommands> => {
   // const options = interaction.options as discordjs.CommandInteractionOptionResolver
   console.log('Command name', interaction.options.getSubcommand());
-
-  interaction.reply('Pong! 🏓');
-
   return {
     hi: () => {
       interaction.reply('HIII!');
@@ -30,7 +27,7 @@ const getSubcommands = async ({
   };
 };
 
-export const command: SubcommandCommand = {
+export const command: Command = {
   // data: new ContextMenuCommandBuilder()
   //   .setName('ping')
   //   .setType(ApplicationCommandType.Message),
@@ -43,5 +40,5 @@ export const command: SubcommandCommand = {
     .addSubcommand((subcommand) =>
       subcommand.setName('bye').setDescription('says bye')
     ),
-  getSubcommands,
+  execute,
 };

@@ -10,5 +10,4 @@ import { ExtendedCommandInteraction } from './ExtendedCommandInteraction.types';
 export type CommandProps = {
   client: ExtendedClient;
   interaction: ExtendedCommandInteraction;
-  args: string[];
 };
