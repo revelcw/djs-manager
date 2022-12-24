@@ -32,17 +32,8 @@ export const command: Command = {
 
 <details>
   <summary>JS</summary>
-  
-```js
-const execute = async ({ client, interaction }) => {
-  interaction.reply('Pong! 🏓');
-};
-
-export const command = {
-  data: new SlashCommandBuilder().setName('ping').setDescription('Says pong'),
-  execute,
-};
-```
+ 
+https://github.com/revelcw/djs-manager/blob/797bbf297b3fc0321d07def3dbd2cff064c16edb/src/commands/ping.js#L4-L11
 
 </details>
 
