@@ -29,18 +29,12 @@ export const registerEvent = async (client: ExtendedClient) => {
         return interaction.followUp({
           content: 'An error has occured unfortunately ',
         });
-
-      interaction.member = interaction?.guild?.members?.cache?.get(
-        interaction.user.id
-      ) as GuildMember;
-
       if (interaction.isContextMenuCommand()) {
         // On context menu
         command.execute({ client, interaction });
       } else if (interaction.isCommand()) {
-        const subcommand = interaction.options.getSubcommand(false);
+        const subcommand = interaction.options.getSubcommand(false); // false means that it won't throw if interaction doesn't have subcommand
         if (subcommand) {
-          // false means that it won't throw if interaction doesn't have subcommand
           const subcommandExecutors: Subcommands = (await command.execute({
             client,
             interaction,

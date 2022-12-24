@@ -10,26 +10,8 @@ This template uses `npm` and compiles TypeScript to JavaScript. TypeScript is op
 
 ## Slash command handling.
 
-Easy slash command handling and registering.
-
+Easy slash command handling and registering. 
 <details open>
-  <summary>JS</summary>
-  
-```js
-const execute = async ({ client, interaction }) => {
-  interaction.reply('Pong! 🏓');
-};
-
-export const command = {
-  data: new SlashCommandBuilder().setName('ping').setDescription('Says pong'),
-  execute,
-};
- 
-```
-
-</details>
-
-<details>
   <summary>TS</summary>
 
 ```ts
@@ -41,6 +23,22 @@ const execute = async ({
 };
 
 export const command: Command = {
+  data: new SlashCommandBuilder().setName('ping').setDescription('Says pong'),
+  execute,
+};
+```
+
+</details>
+
+<details>
+  <summary>JS</summary>
+  
+```js
+const execute = async ({ client, interaction }) => {
+  interaction.reply('Pong! 🏓');
+};
+
+export const command = {
   data: new SlashCommandBuilder().setName('ping').setDescription('Says pong'),
   execute,
 };

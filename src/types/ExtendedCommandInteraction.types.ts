@@ -5,7 +5,7 @@ import {
   GuildMember,
 } from 'discord.js';
 
-export interface ExtendedCommandInteraction extends CommandInteraction {
+export type ExtendedCommandInteraction = CommandInteraction & {
   options: CommandInteractionOptionResolver;
-  member: GuildMember | APIInteractionGuildMember | null;
-}
+  member: GuildMember | undefined;
+};

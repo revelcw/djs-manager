@@ -14,10 +14,13 @@ const execute = async ({
   client,
   interaction,
 }: CommandProps): Promise<Execute> => {
-  interaction.reply('Pong! 🏓');
+  interaction.member.send('Hi');
+  interaction.reply({ content: 'Sent message.', ephemeral: true });
 };
 
 export const command: Command = {
-  data: new SlashCommandBuilder().setName('ping').setDescription('Says pong'),
+  data: new ContextMenuCommandBuilder()
+    .setName('Say Hi')
+    .setType(ApplicationCommandType.User),
   execute,
 };

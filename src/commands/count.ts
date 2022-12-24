@@ -12,34 +12,32 @@ import { Execute } from '../types/Execute.types';
 import { Subcommands } from '../types/Subcommands.types';
 dotenv.config();
 
+let count = 0;
+
 const execute = async ({
   client,
   interaction,
 }: CommandProps): Promise<Execute> => {
-  // const options = interaction.options as discordjs.CommandInteractionOptionResolver
-  console.log('Command name', interaction.options.getSubcommand());
   return {
-    hi: () => {
-      interaction.reply('HIII!');
+    get: () => {
+      interaction.reply(`Current count is: ${count}`);
     },
-    bye: () => {
-      interaction.reply('BYE! 👋');
+    add: () => {
+      count += 1;
+      interaction.reply('Counted +1!');
     },
   };
 };
 
 export const command: Command = {
-  // data: new ContextMenuCommandBuilder()
-  //   .setName('ping')
-  //   .setType(ApplicationCommandType.Message),
   data: new SlashCommandBuilder()
-    .setName('say')
-    .setDescription('Says back')
+    .setName('count')
+    .setDescription('Counting command.')
     .addSubcommand((subcommand) =>
-      subcommand.setName('hi').setDescription('says hi')
+      subcommand.setName('get').setDescription('Displays current count.')
     )
     .addSubcommand((subcommand) =>
-      subcommand.setName('bye').setDescription('says bye')
+      subcommand.setName('add').setDescription('Adds one to the count.')
     ),
   execute,
 };
