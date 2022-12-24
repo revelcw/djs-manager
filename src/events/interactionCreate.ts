@@ -35,18 +35,22 @@ export const registerEvent = async (_client: any) => {
         interaction.user.id
       ) as GuildMember;
 
-      if (interaction.isContextMenuCommand() && command) {
-        if (command) command.execute({ client, interaction });
+      if (interaction.isContextMenuCommand()) {
+        // On context menu
+        command.execute({ client, interaction });
       } else if (interaction.isCommand()) {
         if (interaction.options.getSubcommand(false)) {
-          const subcommand: string = interaction.options.getSubcommand(
-            false
-          ) as string;
-          const subcommands: Subcommands = (await command.execute({
+          // false means that it won't throw if interaction doesn't have subcommand
+          const subcommand: string | null =
+            interaction.options.getSubcommand(false);
+          const subcommandExecutors: Subcommands = (await command.execute({
             client,
             interaction,
-          })) as Subcommands;
-          subcommands[subcommand]();
+          })) as Subcommands; // also runs any code inside the execute function, this is intended
+
+          if (subcommand && subcommandExecutors[subcommand]) {
+            subcommandExecutors[subcommand]();
+          }
         } else {
           await command.execute({ client, interaction });
         }

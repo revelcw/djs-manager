@@ -19,9 +19,9 @@ const execute = async ({
 };
 
 export const command: Command = {
-  // data: new ContextMenuCommandBuilder()
-  //   .setName('ping')
-  //   .setType(ApplicationCommandType.Message),
-  data: new SlashCommandBuilder().setName('ping').setDescription('Says pong'),
+  data: new ContextMenuCommandBuilder()
+    .setName('ping')
+    .setType(ApplicationCommandType.Message),
+  // data: new SlashCommandBuilder().setName('ping').setDescription('Says pong'),
   execute,
 };
