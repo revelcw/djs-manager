@@ -14,15 +14,10 @@ const execute = async ({
   client,
   interaction,
 }: CommandProps): Promise<Execute> => {
-  // const options = interaction.options as discordjs.CommandInteractionOptionResolver
-
   interaction.reply('Pong! 🏓');
 };
 
 export const command: Command = {
-  data: new ContextMenuCommandBuilder()
-    .setName('ping')
-    .setType(ApplicationCommandType.Message),
-  // data: new SlashCommandBuilder().setName('ping').setDescription('Says pong'),
+  data: new SlashCommandBuilder().setName('ping').setDescription('Says pong'),
   execute,
 };
