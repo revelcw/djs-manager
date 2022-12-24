@@ -7,17 +7,14 @@ import {
 } from 'discord.js';
 import * as dotenv from 'dotenv';
 import { Command } from '../types/Command.types';
-import { CommandProps } from '../types/CommandProps.types';
+import { ExecuteParams } from '../types/ExecuteParams';
 import { Execute } from '../types/Execute.types';
 import { Subcommands } from '../types/Subcommands.types';
 dotenv.config();
 
 let count = 0;
 
-const execute = async ({
-  client,
-  interaction,
-}: CommandProps): Promise<Execute> => {
+const execute = async ({ client, interaction }: ExecuteParams) => {
   return {
     get: () => {
       interaction.reply(`Current count is: ${count}`);

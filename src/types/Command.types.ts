@@ -1,8 +1,7 @@
 import { ContextMenuCommandBuilder, SlashCommandBuilder } from 'discord.js';
 
-import { CommandProps } from './CommandProps.types';
+import { ExecuteParams } from './ExecuteParams';
 import { Execute } from './Execute.types';
-import { Subcommands } from './Subcommands.types';
 
 export type Command = {
   data:
@@ -19,5 +18,5 @@ export type Command = {
         | 'addNumberOption'
       >
     | ContextMenuCommandBuilder;
-  execute: (commandProps: CommandProps) => Promise<Execute>;
+  execute: (commandProps: ExecuteParams) => Promise<Execute>;
 };

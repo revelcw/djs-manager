@@ -6,14 +6,14 @@ import {
 } from 'discord.js';
 import * as dotenv from 'dotenv';
 import { Command } from '../types/Command.types';
-import { CommandProps } from '../types/CommandProps.types';
+import { ExecuteParams } from '../types/ExecuteParams';
 import { Execute } from '../types/Execute.types';
 dotenv.config();
 
 const execute = async ({
   client,
   interaction,
-}: CommandProps): Promise<Execute> => {
+}: ExecuteParams): Promise<Execute> => {
   interaction.member.send('Hi');
   interaction.reply({ content: 'Sent message.', ephemeral: true });
 };

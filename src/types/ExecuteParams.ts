@@ -7,7 +7,7 @@ import {
 import { ExtendedClient } from './ExtendedClient.types';
 import { ExtendedCommandInteraction } from './ExtendedCommandInteraction.types';
 
-export type CommandProps = {
+export type ExecuteParams = {
   client: ExtendedClient;
   interaction: ExtendedCommandInteraction;
 };

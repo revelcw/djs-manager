@@ -40,9 +40,8 @@ export const registerEvent = async (client: ExtendedClient) => {
             interaction,
           })) as Subcommands; // also runs any code inside the execute function, this is intended
 
-          if (subcommandExecutors[subcommand]) {
-            subcommandExecutors[subcommand]();
-          }
+          subcommandExecutors[subcommand]?.();
+
         } else {
           await command.execute({ client, interaction });
         }

@@ -97,5 +97,3 @@ export const command: Command = {
 ```
 
 </details>
-
-### Context Menu Interactions
