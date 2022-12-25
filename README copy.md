@@ -97,3 +97,16 @@ export const command: Command = {
 ```
 
 </details>
+
+---
+### Context Menu Interactions
+  
+  DiscoTS also has support for Context Menu interactions, both on users and messages. These menus are super simple to set up and are even easier than slash commands themselves. You can read more about these in the **TODO: wiki**
+ 
+ <img width="720" alt="image" src="https://user-images.githubusercontent.com/29359616/209451809-55c1c76f-6345-447a-86a6-bbbae292e957.png">
+  
+  
+  ---
+ ### Events
+  
+  DiscoTS will loop through files under the `/events` folder and intialize them so you can set up any custom events you want, like messages being sent or users joining your server.
